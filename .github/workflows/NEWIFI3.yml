@@ -49,7 +49,7 @@ jobs:
           
           ################################################################################################
           #添加自定义功能
-          sed -i '/SMARTDNS/{s/=n/=y/}' .config
+          sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
