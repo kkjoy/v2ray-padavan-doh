@@ -21,7 +21,7 @@ jobs:
           mkdir /opt/bin
       - name: 配置自定义参数
         env:
-          TNAME:NEWIFI3
+            TNAME: NEWIFI3
         run: |
           cd /opt/rt-n56u/trunk
           if [ ! -f configs/templates/$TNAME.config ] ; then
