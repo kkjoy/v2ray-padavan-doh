@@ -64,5 +64,5 @@ jobs:
         uses: actions/upload-artifact@master
         if: always()
         with:
-          name: Padavan-NEWIFI3-FULL
+          name: Padavan-NEWIFI3-V2
           path: /opt/bin/*.trx
