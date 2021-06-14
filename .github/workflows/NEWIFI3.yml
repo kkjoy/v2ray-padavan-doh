@@ -58,6 +58,7 @@ jobs:
           
           ################################################################################################
           #开始打包
+          cp -f .config configs/templates/$TNAME.config 
           sudo ./build_firmware_modify $TNAME 0
           sudo mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFI3_v2ray.trx
 
