@@ -1,0 +1,70 @@
+name: Build Padavan for NEWIFIMINI
+
+on:
+  push:
+    tags:
+      - v*
+  watch:
+    types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: 初始化运行环境
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot kmod cpio git python3-docutils gettext automake autopoint texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin
+          git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+          cd /opt/rt-n56u/toolchain-mipsel
+          sh dl_toolchain.sh
+          mkdir /opt/bin
+      - name: 配置自定义参数
+        env:
+            TNAME: NEWIFIMINI
+        run: |
+          cd /opt/rt-n56u/trunk
+          if [ ! -f configs/templates/$TNAME.config ] ; then
+          echo "configs/templates/$TNAME.config not found "
+          exit 1
+          fi
+          cp -f configs/templates/$TNAME.config .config
+          
+          ################################################################################################
+          #最小化系统及更新设置
+          sed -i '3c FIRMWARE_BUILDS_REV=20210617' versions.inc
+          sed -i '/2011-2019/{s/2019/2021/}' user/www/Makefile
+          sed -i '/INCLUDE/{s/=y/=n/}' .config
+          sed -i '/LANG_CN/{s/=n/=y/}' .config
+          wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
+          
+          ################################################################################################
+          #添加基础工具
+          sed -i '/_OPENSS/{s/=n/=y/}' .config
+          sed -i '/HTTPS/{s/=n/=y/}' .config
+          sed -i '/IPSET/{s/=n/=y/}' .config
+          sed -i '/CURL/{s/=n/=y/}' .config
+          sed -i '/HTOP/{s/=n/=y/}' .config
+          sed -i '/IPERF3/{s/=n/=y/}' .config
+          
+          ################################################################################################
+          #添加自定义功能
+          sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
+          sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
+          mkdir user/v2ray
+          cp -f $GITHUB_WORKSPACE/padavan/v2ray/Makefile user/v2ray/Makefile
+          cp -f $GITHUB_WORKSPACE/padavan/smartdns/Makefile user/smartdns/Makefile
+          sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
+          
+          ################################################################################################
+          #开始打包
+          cp -f .config configs/templates/$TNAME.config 
+          sudo ./build_firmware_modify $TNAME 0
+          sudo mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFIMINI_v2ray.trx
+
+      - name : Upload packages
+        uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: Padavan-NEWIFIMINI-V2
+          path: /opt/bin/*.trx
