@@ -23,7 +23,6 @@ jobs:
           wget https://raw.githubusercontent.com/hanwckf/rt-n56u/master/trunk/configs/templates/NEWIFI3.config -O configs/templates/NEWIFI3.config
 
           # build-in smartdns
-          mkdir user/smartdns
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
           wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' configs/templates/NEWIFI3.config
