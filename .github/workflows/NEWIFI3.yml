@@ -32,6 +32,7 @@ jobs:
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' configs/templates/NEWIFI3.config
+          cp -f configs/templates/NEWIFI3.config .config
           fakeroot ./build_firmware_modify NEWIFI3
           mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFI3_v2ray.trx
 
