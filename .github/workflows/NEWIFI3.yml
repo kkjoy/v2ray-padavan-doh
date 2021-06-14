@@ -23,7 +23,6 @@ jobs:
 
           # build-in smartdns
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
-          wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' configs/templates/NEWIFI3.config
 
           # With v2ray & tproxy for others
@@ -32,9 +31,8 @@ jobs:
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' configs/templates/NEWIFI3.config
-          cp -f configs/templates/NEWIFI3.config .config
-          fakeroot ./build_firmware_modify NEWIFI3
-          mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFI3_v2ray.trx
+          sudo ./build_firmware_modify NEWIFI3
+          sudo mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFI3_v2ray.trx
 
       - name : Upload packages
         uses: actions/upload-artifact@master
