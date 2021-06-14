@@ -26,7 +26,6 @@ jobs:
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' configs/templates/NEWIFI3.config
 
           # With v2ray & tproxy for others
-          ./clear_tree
           mkdir user/v2ray
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
