@@ -52,8 +52,8 @@ jobs:
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
-          cp -f $GITHUB_WORKSPACE/padavan/v2ray/Makefile user/v2ray/Makefile
-          cp -f $GITHUB_WORKSPACE/padavan/smartdns/Makefile user/smartdns/Makefile
+          wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
+          wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
           
           ################################################################################################
