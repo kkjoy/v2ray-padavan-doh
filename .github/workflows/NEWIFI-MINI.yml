@@ -1,4 +1,4 @@
-name: Build Padavan for NEWIFIMINI
+name: Build Padavan for NEWIFI-MINI
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
           mkdir /opt/bin
       - name: 配置自定义参数
         env:
-            TNAME: NEWIFIMINI
+            TNAME: NEWIFI-MINI
         run: |
           cd /opt/rt-n56u/trunk
           if [ ! -f configs/templates/$TNAME.config ] ; then
@@ -66,5 +66,5 @@ jobs:
         uses: actions/upload-artifact@master
         if: always()
         with:
-          name: Padavan-NEWIFIMINI-V2
+          name: Padavan-NEWIFI-MINI-V2
           path: /opt/bin/*.trx
