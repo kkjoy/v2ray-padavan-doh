@@ -15,9 +15,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot kmod cpio git python3-docutils gettext automake autopoint texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin
-          wget https://downloads.openwrt.org/releases/19.07.7/targets/ar71xx/generic/openwrt-imagebuilder-19.07.7-ar71xx-generic.Linux-x86_64.tar.xz
-          tar xzvf openwrt-imagebuilder-19.07.7-ar71xx-generic.Linux-x86_64.tar.xz
-          cd openwrt-imagebuilder-19.07.7-ar71xx-generic.Linux-x86_64
+          git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+          cd /opt/rt-n56u/toolchain-mipsel
+          sh dl_toolchain.sh
+          mkdir /opt/bin
       - name: 配置自定义参数
         env:
             TNAME: NEWIFI3
@@ -60,7 +61,6 @@ jobs:
           cp -f .config configs/templates/$TNAME.config 
           sudo ./build_firmware_modify $TNAME 0
           sudo mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFI3_v2ray.trx
-
       - name : Upload packages
         uses: actions/upload-artifact@master
         if: always()
