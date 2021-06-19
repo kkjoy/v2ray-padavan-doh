@@ -49,6 +49,15 @@ jobs:
           
           ################################################################################################
           #添加自定义功能
+          sed -i '/_NFS/{s/=n/=y/}' .config
+          sed -i '/_HDPARM/{s/=n/=y/}' .config
+          sed -i '/_PARTED/{s/=n/=y/}' .config
+          sed -i '/_SMBD/{s/=n/=y/}' .config
+          sed -i '/_SYSLOG/{s/=y/=n/}' .config
+          sed -i '/_FTPD/{s/=n/=y/}' .config
+          sed -i '/_EAP_PEAP/{s/=n/=y/}' .config
+          sed -i '/_SFTP/{s/=n/=y/}' .config
+          sed -i '/_ARIA/{s/=n/=y/}' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
