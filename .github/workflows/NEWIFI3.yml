@@ -33,6 +33,7 @@ jobs:
           ################################################################################################
           #最小化系统及更新设置
           sed -i '3c FIRMWARE_BUILDS_REV=20210617' versions.inc
+          sed -i '/29/{s/29/37/}' user/frp/Makefile
           sed -i '/2011-2019/{s/2019/2021/}' user/www/Makefile
           sed -i '/INCLUDE/{s/=y/=n/}' .config
           sed -i '/LANG_CN/{s/=n/=y/}' .config
@@ -55,6 +56,7 @@ jobs:
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
+          echo "CONFIG_FIRMWARE_INCLUDE_FRPC=y" >> .config #内网穿透FRPC
           
           ################################################################################################
           #开始打包
