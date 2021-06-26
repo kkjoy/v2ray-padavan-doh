@@ -59,7 +59,6 @@ jobs:
           sed -i '/_SFTP/{s/=n/=y/}' .config
           sed -i '/_ARIA/{s/=n/=y/}' .config
           sed -i '/_VLMCSD/{s/=n/=y/}' .config
-          sed -i '/_FRPC/{s/=n/=y/}' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
