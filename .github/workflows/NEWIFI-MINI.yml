@@ -32,7 +32,7 @@ jobs:
           
           ################################################################################################
           #最小化系统及更新设置
-          sed -i '3c FIRMWARE_BUILDS_REV=20210915' versions.inc
+          sed -i '3c FIRMWARE_BUILDS_REV=20211001' versions.inc
           sed -i '/29/{s/29/37/}' user/frp/Makefile
           sed -i '/2011-2019/{s/2019/2021/}' user/www/Makefile
           sed -i '/INCLUDE/{s/=y/=n/}' .config
