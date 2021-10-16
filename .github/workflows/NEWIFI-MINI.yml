@@ -32,9 +32,9 @@ jobs:
           
           ################################################################################################
           #最小化系统及更新设置
-          sed -i '3c FIRMWARE_BUILDS_REV=20211001' versions.inc
+          sed -i '3c FIRMWARE_BUILDS_REV=20211016' versions.inc
           sed -i '/29/{s/29/37/}' user/frp/Makefile
-          sed -i '/2011-2019/{s/2019/2021/}' user/www/Makefile
+          sed -i '/2011-2019/{s/2019/2022/}' user/www/Makefile
           sed -i '/INCLUDE/{s/=y/=n/}' .config
           sed -i '/LANG_CN/{s/=n/=y/}' .config
           wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
