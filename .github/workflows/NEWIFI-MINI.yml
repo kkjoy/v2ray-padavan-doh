@@ -32,9 +32,10 @@ jobs:
           
           ################################################################################################
           #最小化系统及更新设置
-          sed -i '3c FIRMWARE_BUILDS_REV=20211016' versions.inc
-          sed -i '/29/{s/29/37/}' user/frp/Makefile
-          sed -i '/2011-2019/{s/2019/2022/}' user/www/Makefile
+          sed -i '3c FIRMWARE_BUILDS_REV=lissom-2111' versions.inc
+          sed -i '/29/{s/29/38/}' user/frp/Makefile
+          sed -i '/1.35.0/{s/35/36/}' user/aria2/Makefile
+          sed -i '/1.1.7/{s/1.1.7/1.2.3/}' user/aria2/Makefile
           sed -i '/INCLUDE/{s/=y/=n/}' .config
           sed -i '/LANG_CN/{s/=n/=y/}' .config
           wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
@@ -54,7 +55,6 @@ jobs:
           sed -i '/_PARTED/{s/=n/=y/}' .config
           sed -i '/_SMBD/{s/=n/=y/}' .config
           sed -i '/_SYSLOG/{s/=y/=n/}' .config
-          sed -i '/_FTPD/{s/=n/=y/}' .config
           sed -i '/_EAP_PEAP/{s/=n/=y/}' .config
           sed -i '/_SFTP/{s/=n/=y/}' .config
           sed -i '/_ARIA/{s/=n/=y/}' .config
