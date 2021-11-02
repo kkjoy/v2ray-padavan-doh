@@ -60,6 +60,7 @@ jobs:
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
+          rm -rf user/aria2/Makefile
           wget -P user/aria2/ https://raw.githubusercontent.com/kkjoy/v2ray-padavan-doh/master/padavan/aria2/Makefile
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
