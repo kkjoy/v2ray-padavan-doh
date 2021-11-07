@@ -1,7 +1,7 @@
 #!/bin/sh
 
-APP=/usr/bin/v2ray
-CONF=/etc/storage/v2ray/config.json
+APP=/usr/bin/xray
+CONF=/etc/storage/xray/config.json
 
 NUM=`ps | grep -w $APP | grep -v grep | wc -l`
 if [ "$NUM" -lt "1" ];then

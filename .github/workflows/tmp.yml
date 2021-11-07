@@ -1,7 +1,7 @@
 on:
   push:
-    tags:
-      - v*
+    branches: 
+      - master
 
 jobs:
   build:
@@ -19,10 +19,11 @@ jobs:
           sh dl_toolchain.sh
           cd /opt/rt-n56u/trunk
           wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/k2p.config -O configs/templates/K2P.config
-
-          # enlarge the storage size
-          # sed -i 's/CONFIG_MTD_STORE_PART_SIZ=0x80000/CONFIG_MTD_STORE_PART_SIZ=0x600000/' configs/boards/K2P/kernel-3.4.x.config
-          # sed -i 's/mtd_part_size=65536/mtd_part_size=6291456/' user/scripts/mtd_storage.sh
+          sed -i 's/CONFIG_RT2880_FLASH_16M=y/# CONFIG_RT2880_FLASH_16M is not set/' configs/boards/K2P/kernel-3.4.x-5.0.config
+          sed -i 's/# CONFIG_RT2880_FLASH_32M is not set/CONFIG_RT2880_FLASH_32M=y/' configs/boards/K2P/kernel-3.4.x-5.0.config
+          sed -i 's/CONFIG_RT2880_DRAM_128M=y/# CONFIG_RT2880_DRAM_128M is not set/' configs/boards/K2P/kernel-3.4.x-5.0.config
+          sed -i 's/# CONFIG_RT2880_DRAM_512M is not set/CONFIG_RT2880_DRAM_512M=y/' configs/boards/K2P/kernel-3.4.x-5.0.config
+          sed -i 's/CONFIG_RALINK_RAM_SIZE=128/CONFIG_RALINK_RAM_SIZE=512/' configs/boards/K2P/kernel-3.4.x-5.0.config
 
           # build-in smartdns
           mkdir -p user/smartdns
@@ -52,9 +53,7 @@ jobs:
           fakeroot ./build_firmware_modify K2P
           mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/k2p_xray.trx
       - name: Upload artifact
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: actions/upload-artifact@master
         with:
-          repo_token: "${{ secrets.UPLOAD_KEY }}"
-          prerelease: false
-          files: |
-            /opt/bin/*.trx
+          name: build
+          path: /opt/bin
