@@ -14,7 +14,7 @@ jobs:
       - name: 初始化运行环境
         run: |
           sudo apt-get update
-          sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk libncursesw5-dev autotools-dev autoconf flex bison nano xxd fakeroot kmod cpio git python3-docutils gettext automake autopoint texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin
+          sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot kmod cpio git python3-docutils gettext automake autopoint texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin
           git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
           cd /opt/rt-n56u/toolchain-mipsel
           sh dl_toolchain.sh
@@ -61,8 +61,6 @@ jobs:
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
           rm -rf user/aria2/Makefile
-          rm -rf user/htop/Makefile
-          wget -P user/htop/ https://raw.githubusercontent.com/kkjoy/v2ray-padavan-doh/master/padavan/htop/Makefile
           wget -P user/aria2/ https://raw.githubusercontent.com/kkjoy/v2ray-padavan-doh/master/padavan/aria2/Makefile
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
