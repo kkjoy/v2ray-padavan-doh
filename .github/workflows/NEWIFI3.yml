@@ -32,9 +32,8 @@ jobs:
           
           ################################################################################################
           #最小化系统及更新设置
-          sed -i '3c FIRMWARE_BUILDS_REV=20210626' versions.inc
-          sed -i '/29/{s/29/37/}' user/frp/Makefile
-          sed -i '/2011-2019/{s/2019/2021/}' user/www/Makefile
+          sed -i '3c FIRMWARE_BUILDS_REV=20211123' versions.inc
+          sed -i '/29/{s/29/38/}' user/frp/Makefile
           sed -i '/INCLUDE/{s/=y/=n/}' .config
           sed -i '/LANG_CN/{s/=n/=y/}' .config
           wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
@@ -54,23 +53,25 @@ jobs:
           sed -i '/_PARTED/{s/=n/=y/}' .config
           sed -i '/_SMBD/{s/=n/=y/}' .config
           sed -i '/_SYSLOG/{s/=y/=n/}' .config
-          sed -i '/_FTPD/{s/=n/=y/}' .config
           sed -i '/_EAP_PEAP/{s/=n/=y/}' .config
           sed -i '/_SFTP/{s/=n/=y/}' .config
           sed -i '/_ARIA/{s/=n/=y/}' .config
           sed -i '/_VLMCSD/{s/=n/=y/}' .config
-          sed -i '/_FRPC/{s/=n/=y/}' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
+          rm -rf user/aria2/Makefile
+          wget -P user/aria2/ https://raw.githubusercontent.com/kkjoy/v2ray-padavan-doh/master/padavan/aria2/Makefile
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
+          sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' user/scripts/profile
           ################################################################################################
           #开始打包
           cp -f .config configs/templates/$TNAME.config 
           sudo ./build_firmware_modify $TNAME 0
           sudo mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFI3_v2ray.trx
+
       - name : Upload packages
         uses: actions/upload-artifact@master
         if: always()
