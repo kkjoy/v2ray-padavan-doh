@@ -1,4 +1,4 @@
-name: Build Padavan for NEWIFI3
+name: Build Padavan for NEWIFI-MINI
 
 on:
   push:
@@ -15,31 +15,27 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot kmod cpio git python3-docutils gettext automake autopoint texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin
-          git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+          git clone --depth=1 https://github.com/keke1023/Padavan.git /opt/rt-n56u
           cd /opt/rt-n56u/toolchain-mipsel
           sh dl_toolchain.sh
+          mkdir /opt/bin
       - name: 配置自定义参数
         env:
-            TNAME: "NEWIFI-MINI NEWIFI3"
+            TNAME: NEWIFI-MINI
         run: |
-          cwd=`pwd`
-          CONFIG_TOOLCHAIN_DIR=${cwd//\//\\\/}\\/toolchain-mipsel
-          cd trunk
-          for m in $TNAME;
-          do
-          if [ ! -f configs/templates/$m.config ] ; then
-          echo "configs/templates/$m.config not found "
+          cd /opt/rt-n56u/trunk
+          if [ ! -f configs/templates/$TNAME.config ] ; then
+          echo "configs/templates/$TNAME.config not found "
           exit 1
           fi
-          cp -f configs/templates/$m.config .config
+          cp -f configs/templates/$TNAME.config .config
           
           ################################################################################################
           #最小化系统及更新设置
-          sed -i '3c FIRMWARE_BUILDS_REV=20211123' versions.inc
+          sed -i '3c FIRMWARE_BUILDS_REV=20211208' versions.inc
           sed -i '/29/{s/29/38/}' user/frp/Makefile
           sed -i '/INCLUDE/{s/=y/=n/}' .config
           sed -i '/LANG_CN/{s/=n/=y/}' .config
-          wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
           
           ################################################################################################
           #添加基础工具
@@ -62,23 +58,24 @@ jobs:
           sed -i '/_VLMCSD/{s/=n/=y/}' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
+          sed -i '$a\CONFIG_FIRMWARE_INCLUDE_ZEROTIER=y' .config
           mkdir user/v2ray
           rm -rf user/aria2/Makefile
           wget -P user/aria2/ https://raw.githubusercontent.com/kkjoy/v2ray-padavan-doh/master/padavan/aria2/Makefile
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
+          rm -rf user/smartdns/Makefile
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
           sed -i '$a\export SSL_CERT_FILE=/usr/lib/cacert.pem' user/scripts/profile
           ################################################################################################
           #开始打包
-          sudo ./clear_tree_simple
-          sudo ./build_firmware_modify $m 0
-          sudo mv -f images/*.trx /opt/images/
-          done
+          cp -f .config configs/templates/$TNAME.config 
+          sudo ./build_firmware_modify $TNAME 0
+          sudo mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFIMINI_v2ray.trx
 
       - name : Upload packages
         uses: actions/upload-artifact@master
         if: always()
         with:
-          name: Padavan-smartdns
-          path: /opt/images/*.trx
+          name: Padavan-NEWIFI-MINI-V2
+          path: /opt/bin/*.trx
