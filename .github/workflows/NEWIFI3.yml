@@ -46,22 +46,11 @@ jobs:
           sed -i '/HTOP/{s/=n/=y/}' .config
           sed -i '/IPERF3/{s/=n/=y/}' .config
           sed -i '/FRPC/{s/=n/=y/}' .config
-          
-          ################################################################################################
-          #添加自定义功能
-          #sed -i '/_HDPARM/{s/=n/=y/}' .config
-          #sed -i '/_PARTED/{s/=n/=y/}' .config
-          #sed -i '/_SMBD/{s/=n/=y/}' .config
-          sed -i '/_SYSLOG/{s/=y/=n/}' .config
-          sed -i '/_EAP_PEAP/{s/=n/=y/}' .config
-          sed -i '/_SFTP/{s/=n/=y/}' .config
-          #sed -i '/_ARIA/{s/=n/=y/}' .config
-          #sed -i '/_VLMCSD/{s/=n/=y/}' .config
+          sed -i '/NGINX/{s/=n/=y/}' .config
+
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y' .config
           sed -i '$a\CONFIG_FIRMWARE_INCLUDE_V2RAY=y' .config
           mkdir user/v2ray
-          rm -rf user/aria2/Makefile
-          wget -P user/aria2/ https://raw.githubusercontent.com/kkjoy/v2ray-padavan-doh/master/padavan/aria2/Makefile
           wget -P user/v2ray/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/v2ray/Makefile
           wget -P user/smartdns/ https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/smartdns/Makefile
           sed -i '/module_smart_load("xt_set", NULL);/amodule_smart_load("xt_TPROXY", NULL);' user/rc/rc.c
