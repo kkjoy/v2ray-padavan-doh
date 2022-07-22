@@ -35,7 +35,7 @@ jobs:
           sed -i '3c FIRMWARE_BUILDS_REV=20220728' versions.inc
           sed -i '/INCLUDE/{s/=y/=n/}' .config
           sed -i '/LANG_CN/{s/=n/=y/}' .config
-          wget https://raw.githubusercontent.com/felix-fly/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
+          wget https://raw.githubusercontent.com/kkjoy/v2ray-padavan-doh/master/padavan/user/Makefile -O user/Makefile
           
           ################################################################################################
           #添加基础工具
