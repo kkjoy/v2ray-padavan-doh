@@ -91,7 +91,7 @@ jobs:
         # NEWIFI3
         cp -f .config configs/templates/$TNAME.config 
         fakeroot ./build_firmware_modify $TNAME
-        mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/$TNAME-kvr-smartdns-xray.trx
+        mv /opt/rt-n56u/trunk/images/*.trx /opt/bin/NEWIFI3-kvr-smartdns-xray.trx
         
     - name : Upload packages
       uses: actions/upload-artifact@master
